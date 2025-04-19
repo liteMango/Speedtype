@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Option Timer with Typing Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        .timer {
+            font-size: 2em;
+            margin: 20px;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 1em;
+        }
+        .typing-text {
+            margin: 20px auto;
+            width: 50%;
+            font-size: 1.2em;
+            text-align: left;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+        .input-field {
+            margin-top: 20px;
+            width: 50%;
+            padding: 10px;
+            font-size: 1em;
+        }
+    </style>
+</head>
+<body>
+    <h1>Multi-Option Timer with Typing Test</h1>
+    <div>
+        <label for="timeSelect">Select Timer Duration:</label>
+        <select id="timeSelect">
+            <option value="10">10 Seconds</option>
+            <option value="30">30 Seconds</option>
+            <option value="60">1 Minute</option>
+            <option value="120">2 Minutes</option>
+        </select>
+    </div>
+    <div class="timer" id="display">00:00</div>
+    <button onclick="startTimer()">Start</button>
+    <button onclick="pauseTimer()">Pause</button>
+    <button onclick="resetTimer()">Reset</button>
+    
+    <div class="typing-text" id="typingText"></div>
+    <input type="text" class="input-field" id="inpField" placeholder="Start typing..." disabled>
+    
+    <script>
+        let countdown;
+        let timeLeft = 0;
+        let isPaused = false;
+        let display = document.getElementById("display");
+        let typingText = document.getElementById("typingText");
+        let inpField = document.getElementById("inpField");
+        
+        let paragraphs = [
+            "Their politician was, in this moment, a notour paperback...",
+            "Authors often misinterpret the lettuce as a folklore rabbi...",
+            "In modern times the first scrawny kitten is, in its own way, an input..."
+        ];
+        
+        function startTimer() {
+            if (!isPaused) {
+                let selectedTime = document.getElementById("timeSelect").value;
+                timeLeft = parseInt(selectedTime);
+                loadParagraph();
+                inpField.disabled = false;
+                inpField.focus();
+            }
+            isPaused = false;
+            clearInterval(countdown);
+            countdown = setInterval(updateTimer, 1000);
+        }
+
+        function updateTimer() {
+            if (timeLeft <= 0) {
+                clearInterval(countdown);
+                alert("Time's up!");
+                inpField.disabled = true;
+                return;
+            }
+            timeLeft--;
+            displayTime(timeLeft);
+        }
+
+        function pauseTimer() {
+            isPaused = true;
+            clearInterval(countdown);
+        }
+
+        function resetTimer() {
+            clearInterval(countdown);
+            display.innerText = "00:00";
+            typingText.innerText = "";
+            inpField.value = "";
+            inpField.disabled = true;
+            isPaused = false;
+        }
+
+        function displayTime(seconds) {
+            let minutes = Math.floor(seconds / 60);
+            let secs = seconds % 60;
+            display.innerText = `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function loadParagraph() {
+            let ranIndex = Math.floor(Math.random() * paragraphs.length);
+            typingText.innerText = paragraphs[ranIndex];
+        }
+    </script>
+</body>
+</html>

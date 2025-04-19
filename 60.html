@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Option Timer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        .timer {
+            font-size: 2em;
+            margin: 20px;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 1em;
+        }
+    </style>
+</head>
+<body>
+    <h1>Multi-Option Timer</h1>
+    <div>
+        <label for="timeSelect">Select Timer Duration:</label>
+        <select id="timeSelect">
+            <option value="10">10 Seconds</option>
+            <option value="30">30 Seconds</option>
+            <option value="60">1 Minute</option>
+            <option value="120">2 Minutes</option>
+        </select>
+    </div>
+    <div class="timer" id="display">00:00</div>
+    <button onclick="startTimer()">Start</button>
+    <button onclick="pauseTimer()">Pause</button>
+    <button onclick="resetTimer()">Reset</button>
+    <button onclick="setTime(30)">Set 30s</button>
+    <button onclick="setTime(120)">Set 120s</button>
+
+    <script>
+        let countdown;
+        let timeLeft = 0;
+        let isPaused = false;
+        let display = document.getElementById("display");
+
+        document.getElementById("timeSelect").addEventListener("change", function() {
+            setTime(parseInt(this.value));
+        });
+
+        function startTimer() {
+            if (timeLeft <= 0) {
+                let selectedTime = document.getElementById("timeSelect").value;
+                timeLeft = parseInt(selectedTime);
+            }
+            isPaused = false;
+            clearInterval(countdown);
+            countdown = setInterval(updateTimer, 1000);
+        }
+
+        function updateTimer() {
+            if (timeLeft <= 0) {
+                clearInterval(countdown);
+                alert("Time's up!");
+                return;
+            }
+            timeLeft--;
+            displayTime(timeLeft);
+        }
+
+        function pauseTimer() {
+            isPaused = true;
+            clearInterval(countdown);
+        }
+
+        function resetTimer() {
+            clearInterval(countdown);
+            timeLeft = 0;
+            displayTime(timeLeft);
+            isPaused = false;
+        }
+
+        function setTime(seconds) {
+            clearInterval(countdown); // Stop any running timer
+            timeLeft = seconds; // Set the new time
+            displayTime(timeLeft);
+        }
+
+        function displayTime(seconds) {
+            let minutes = Math.floor(seconds / 60);
+            let secs = seconds % 60;
+            display.innerText = `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+    </script>
+</body>
+</html>
