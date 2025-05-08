@@ -340,3 +340,25 @@ li:not(:first-child) span {
   .dropdown:hover .dropdown-content {
     display: block;
   }
+
+
+  .biography{
+    margin: 0 auto;
+    margin-top: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+
+  .paragraph{
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex
+;
+    height: 115px;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }

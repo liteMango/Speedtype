@@ -5,30 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="Css/style.css">
+    <link rel="stylesheet" href="Css/style2.css">
 </head>
 <body>
     <header>
 		<div class="inner">
-			<div class="logo"><a class="logo"  href="Body.html" width: 190px;
+			<div class="logo"><a class="logo"  href="index.html" width: 190px;
                 height: 115px;><img src="Logos/logo.png"></a></div>
 			<div class="burger"></div>
 			<nav>
 				<div class="dropdown">
                     <span><a>Languages</a></span>
                     <div class="dropdown-content">
-                        <a href="French.html">French</a>
-                        <a href="index.html">English</a>
-                        <a href="Igbo.html">English</a>
+                      <div id="google_translate_element"></div>
                     </div>
 
-                    <span><a>Modes</a></span>
+                    <!-- <span><a>Modes</a></span>
                     <div class="dropdown-content">
                         <a href="French.html"  id="myButton">French</a>
                         <a href="Body.html">English</a>
                     </div>
-                </div>
+                </div> -->
 				
-                <a href="#">About Us</a>
+                <a href="aboutus.html">About Us</a>
 				<a href="#">Settings</a>
 			</nav>
 			<a href="#" class="donate-link">Account</a>
@@ -48,7 +47,8 @@
                 </div>
                 <div class="content">
                     <ul class="result-details">
-                        <li class="time">
+                        <li
+                          class="time">
                             <p>
                                 Time Left:
                             </p>
@@ -77,7 +77,90 @@
                 </div>
             </div>
     </div>
+
+    <div  class="countdown">
+        <div class="time-section" id="minutes">
+          <div class="time-group">
+            <div class="time-segment">
+              <div class="segment-display">
+                <div class="segment-display__top"></div>
+                <div class="segment-display__bottom"></div>
+                <div class="segment-overlay">
+                  <div class="segment-overlay__top"></div>
+                  <div class="segment-overlay__bottom"></div>
+                </div>
+              </div>
+            </div>
+            <div class="time-segment">
+              <div class="segment-display">
+                <div class="segment-display__top"></div>
+                <div class="segment-display__bottom"></div>
+                <div class="segment-overlay">
+                  <div class="segment-overlay__top"></div>
+                  <div class="segment-overlay__bottom"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p>Minutes</p>
+        </div>
     
+        <div class="time-section" id="seconds">
+          <div class="time-group">
+            <div class="time-segment">
+              <div class="segment-display">
+                <div class="segment-display__top"></div>
+                <div class="segment-display__bottom"></div>
+                <div class="segment-overlay">
+                  <div class="segment-overlay__top"></div>
+                  <div class="segment-overlay__bottom"></div>
+                </div>
+              </div>
+            </div>
+            <div class="time-segment">
+              <div class="segment-display">
+                <div class="segment-display__top"></div>
+                <div class="segment-display__bottom"></div>
+                <div class="segment-overlay">
+                  <div class="segment-overlay__top"></div>
+                  <div class="segment-overlay__bottom"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p>Seconds</p>
+        </div>
+        <link rel="stylesheet" href="Css/style2.css">
+      </div>
+    
+    
+    
+      <div class="controls">
+        <button data-time="10" data-unit="seconds">10 Seconds</button>
+        <button data-time="20" data-unit="seconds">20 Seconds</button>
+        <button data-time="30" data-unit="seconds">30 Seconds</button>
+        <button data-time="1" data-unit="minutes">1 Minute</button>
+        <button data-time="5" data-unit="minutes">5 Minutes</button>
+        <button data-time="10" data-unit="minutes">10 Minutes</button>
+        <button data-time="30" data-unit="minutes" class="active">
+          30 Minutes
+        </button>
+        <button id="resetButton" class="reset-button">Reset Timer</button>
+      </div>
+
+      <script>
+        function googleTranslateElementInit(){
+          new google.translate.TranslateElement(
+            {pageLanguage: "en"},
+            "google_translate_element"
+          )
+        }
+      </script>
+      <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+      
+
+      <script src="Js/2.js"></script>
     <script src="Js/script.js"></script>
+   
 </body>
 </html>

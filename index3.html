@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Multi-Timer Countdown</title>
+    <link rel="stylesheet" href="Css/style2.css">
+  </head>
+  <body>
+    <h1>Countdown Timer</h1>
+
+    <div class="controls">
+      <button data-time="10" data-unit="seconds">10 Seconds</button>
+      <button data-time="20" data-unit="seconds">20 Seconds</button>
+      <button data-time="30" data-unit="seconds">30 Seconds</button>
+      <button data-time="1" data-unit="minutes">1 Minute</button>
+      <button data-time="5" data-unit="minutes">5 Minutes</button>
+      <button data-time="10" data-unit="minutes">10 Minutes</button>
+      <button data-time="30" data-unit="minutes" class="active">
+        30 Minutes
+      </button>
+    </div>
+
+    <div class="countdown">
+      <div class="time-section" id="minutes">
+        <div class="time-group">
+          <div class="time-segment">
+            <div class="segment-display">
+              <div class="segment-display__top"></div>
+              <div class="segment-display__bottom"></div>
+              <div class="segment-overlay">
+                <div class="segment-overlay__top"></div>
+                <div class="segment-overlay__bottom"></div>
+              </div>
+            </div>
+          </div>
+          <div class="time-segment">
+            <div class="segment-display">
+              <div class="segment-display__top"></div>
+              <div class="segment-display__bottom"></div>
+              <div class="segment-overlay">
+                <div class="segment-overlay__top"></div>
+                <div class="segment-overlay__bottom"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p>Minutes</p>
+      </div>
+
+      <div class="time-section" id="seconds">
+        <div class="time-group">
+          <div class="time-segment">
+            <div class="segment-display">
+              <div class="segment-display__top"></div>
+              <div class="segment-display__bottom"></div>
+              <div class="segment-overlay">
+                <div class="segment-overlay__top"></div>
+                <div class="segment-overlay__bottom"></div>
+              </div>
+            </div>
+          </div>
+          <div class="time-segment">
+            <div class="segment-display">
+              <div class="segment-display__top"></div>
+              <div class="segment-display__bottom"></div>
+              <div class="segment-overlay">
+                <div class="segment-overlay__top"></div>
+                <div class="segment-overlay__bottom"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p>Seconds</p>
+      </div>
+    </div>
+
+    <button id="resetButton" class="reset-button">Reset Timer</button>
+
+    <script src="Js/2.js"></script>
+    
+  </body>
+</html>

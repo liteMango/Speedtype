@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Connected Timers</title>
+  <style>
+    /* Simple styles to make it look okay */
+    body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+    .countdown { margin-top: 20px; font-size: 2em; }
+    .controls button { margin: 5px; padding: 10px 20px; }
+  </style>
+</head>
+<body>
+
+<h1>Connected Countdown Timers</h1>
+
+<!-- Simple text timer -->
+<div>
+  Time Left: <span><b>60</b>s</span>
+</div>
+
+<!-- Digital-looking timer -->
+<div class="countdown">
+  <div id="minutes">
+    <div class="time-group">
+      <div class="time-segment"><div class="segment-display__top">0</div></div>
+      <div class="time-segment"><div class="segment-display__top">1</div></div>
+    </div>
+    <p>Minutes</p>
+  </div>
+
+  <div id="seconds">
+    <div class="time-group">
+      <div class="time-segment"><div class="segment-display__top">0</div></div>
+      <div class="time-segment"><div class="segment-display__top">0</div></div>
+    </div>
+    <p>Seconds</p>
+  </div>
+</div>
+
+<!-- Controls -->
+<div class="controls">
+  <button data-time="10" data-unit="seconds">10 Seconds</button>
+  <button data-time="20" data-unit="seconds">20 Seconds</button>
+  <button data-time="30" data-unit="seconds">30 Seconds</button>
+  <button data-time="1" data-unit="minutes">1 Minute</button>
+  <button data-time="5" data-unit="minutes">5 Minutes</button>
+  <button data-time="10" data-unit="minutes">10 Minutes</button>
+  <button id="resetButton">Reset Timer</button>
+</div>
+
+<script>
+let timeLeft = 60;
+let timerInterval;
+
+// Elements
+const simpleTimerSpan = document.querySelector('.time span b');
+const minutesDisplay = document.querySelectorAll('#minutes .segment-display__top');
+const secondsDisplay = document.querySelectorAll('#seconds .segment-display__top');
+
+// Start the timer
+function startTimer() {
+  clearInterval(timerInterval);
+
+  timerInterval = setInterval(() => {
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      return;
+    }
+
+    timeLeft--;
+
+    // Update simple timer
+    simpleTimerSpan.textContent = timeLeft;
+
+    // Calculate minutes and seconds
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+
+    // Format with leading zeros
+    const minStr = String(minutes).padStart(2, '0');
+    const secStr = String(seconds).padStart(2, '0');
+
+    // Update digital timer
+    minutesDisplay[0].textContent = minStr[0];
+    minutesDisplay[1].textContent = minStr[1];
+    secondsDisplay[0].textContent = secStr[0];
+    secondsDisplay[1].textContent = secStr[1];
+  }, 1000);
+}
+
+// Reset button
+document.getElementById('resetButton').addEventListener('click', () => {
+  timeLeft = 60;
+  startTimer();
+});
+
+// Time selector buttons
+document.querySelectorAll('.controls button[data-time]').forEach(button => {
+  button.addEventListener('click', () => {
+    const time = parseInt(button.getAttribute('data-time'));
+    const unit = button.getAttribute('data-unit');
+    if (unit === 'minutes') {
+      timeLeft = time * 60;
+    } else {
+      timeLeft = time;
+    }
+    startTimer();
+  });
+});
+
+// Start initially
+startTimer();
+</script>
+
+</body>
+</html>
