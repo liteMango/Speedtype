@@ -362,3 +362,18 @@ li:not(:first-child) span {
     justify-content: center;
     position: relative;
   }
+
+  /* .themes{
+    margin-top: 80px;
+  } */
+
+  header.gold-theme {
+    background-color: gold;
+    color: white;
+  }
+  
+  header.gold-theme * {
+    color: gold !important;
+    border-color: gold !important;
+  }
+  

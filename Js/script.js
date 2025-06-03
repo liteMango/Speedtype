@@ -46,6 +46,15 @@ function loadParagraph() {
   typingText.addEventListener("click", () => inpField.focus());
 }
 
+let visualTimerStarted = false;
+
+function startVisualTimerOnce() {
+  if (!visualTimerStarted) {
+    setCountdownTime(currentTimeValue, currentTimeUnit);
+    visualTimerStarted = true;
+  }
+}
+
 function initTyping() {
   let characters = typingText.querySelectorAll("span");
   let typedChar = inpField.value.split("")[charIndex];
@@ -53,6 +62,7 @@ function initTyping() {
       if (!isTyping) {
           timer = setInterval(initTimer, 1000);
           isTyping = true;
+          startVisualTimerOnce();
       }
       if (typedChar == null) {
           if (charIndex > 0) {
@@ -107,8 +117,243 @@ function resetGame() {
   wpmTag.innerText = 0;
   mistakeTag.innerText = 0;
   cpmTag.innerText = 0;
+
+  currentTimeValue = 1;           // Reset to default 1 minute
+  currentTimeUnit = "minutes";
+  resetCurrentTimer();
+  visualTimerStarted = false;
 }
 
 loadParagraph();
 inpField.addEventListener("input", initTyping);
 tryAgainBtn.addEventListener("click", resetGame);
+
+ // Initial target date (default to 30 minutes from now)
+ let targetDate = new Date();
+
+ // Track current timer settings
+ let currentTimeValue = 1;
+ let currentTimeUnit = "minutes";
+
+ // Timer interval reference for clearing/resetting
+ let countdownTimer;
+
+ function setButtonsDisabled(disabled) {
+    document.querySelectorAll(".controls button").forEach((button) => {
+      button.disabled = disabled;
+    });
+  }
+
+
+  function setCountdownTime(timeValue, timeUnit, buttonElement = null) {
+    // Update current timer tracking
+    currentTimeValue = timeValue;
+    currentTimeUnit = timeUnit;
+  
+    // Update active button
+    if (buttonElement) {
+      // Remove active class from all buttons
+      document.querySelectorAll(".controls button").forEach((btn) => {
+        btn.classList.remove("active");
+      });
+  
+      // Add active class to the clicked button
+      buttonElement.classList.add("active");
+    }
+  
+    // Clear existing interval if any
+    if (countdownTimer) {
+      clearInterval(countdownTimer);
+    }
+  
+    // Set new target date based on timeValue and timeUnit
+    const now = new Date();
+    targetDate = new Date(now);
+  
+    if (timeUnit === "seconds") {
+      targetDate.setSeconds(targetDate.getSeconds() + timeValue);
+    } else if (timeUnit === "minutes") {
+      targetDate.setMinutes(targetDate.getMinutes() + timeValue);
+    } else if (timeUnit === "hours") {
+      targetDate.setHours(targetDate.getHours() + timeValue);
+    }
+  
+    // Update display immediately
+    updateAllSegments();
+  
+    // Disable buttons during countdown
+    setButtonsDisabled(true);
+  
+    // Start the countdown
+    countdownTimer = setInterval(() => {
+      const isComplete = updateAllSegments();
+  
+      if (isComplete) {
+        clearInterval(countdownTimer);
+        setButtonsDisabled(false); // Re-enable buttons when countdown ends
+      }
+    }, 1000);
+  
+    console.log(
+      `Timer set to ${timeValue} ${timeUnit}. New target: ${targetDate}`
+    );
+  }
+  
+
+  function resetCurrentTimer() {
+    // Set the new countdown time but do NOT start the timer
+    timeLeft = convertToSeconds(currentTimeValue, currentTimeUnit); // Ensure this returns seconds
+    timeTag.innerText = timeLeft;
+    console.log(`Timer reset to ${currentTimeValue} ${currentTimeUnit}`);
+  }
+
+ function getTimeSegmentElements(segmentElement) {
+   const segmentDisplay = segmentElement.querySelector(".segment-display");
+   const segmentDisplayTop = segmentDisplay.querySelector(
+     ".segment-display__top"
+   );
+   const segmentDisplayBottom = segmentDisplay.querySelector(
+     ".segment-display__bottom"
+   );
+
+   const segmentOverlay = segmentDisplay.querySelector(".segment-overlay");
+   const segmentOverlayTop = segmentOverlay.querySelector(
+     ".segment-overlay__top"
+   );
+   const segmentOverlayBottom = segmentOverlay.querySelector(
+     ".segment-overlay__bottom"
+   );
+
+   return {
+     segmentDisplayTop,
+     segmentDisplayBottom,
+     segmentOverlay,
+     segmentOverlayTop,
+     segmentOverlayBottom,
+   };
+ }
+
+ function updateSegmentValues(displayElement, overlayElement, value) {
+   displayElement.textContent = value;
+   overlayElement.textContent = value;
+ }
+
+ function updateTimeSegment(segmentElement, timeValue) {
+   const segmentElements = getTimeSegmentElements(segmentElement);
+
+   if (
+     parseInt(segmentElements.segmentDisplayTop.textContent, 10) ===
+     timeValue
+   ) {
+     return;
+   }
+
+   segmentElements.segmentOverlay.classList.add("flip");
+
+   updateSegmentValues(
+     segmentElements.segmentDisplayTop,
+     segmentElements.segmentOverlayBottom,
+     timeValue
+   );
+
+   function finishAnimation() {
+     segmentElements.segmentOverlay.classList.remove("flip");
+     updateSegmentValues(
+       segmentElements.segmentDisplayBottom,
+       segmentElements.segmentOverlayTop,
+       timeValue
+     );
+
+     this.removeEventListener("animationend", finishAnimation);
+   }
+
+   segmentElements.segmentOverlay.addEventListener(
+     "animationend",
+     finishAnimation
+   );
+ }
+
+ function updateTimeSection(sectionID, timeValue) {
+   const firstNumber = Math.floor(timeValue / 10) || 0;
+   const secondNumber = timeValue % 10 || 0;
+   const sectionElement = document.getElementById(sectionID);
+   const timeSegments = sectionElement.querySelectorAll(".time-segment");
+
+   updateTimeSegment(timeSegments[0], firstNumber);
+   updateTimeSegment(timeSegments[1], secondNumber);
+ }
+
+ function getTimeRemaining(targetDateTime) {
+   const nowTime = Date.now();
+   const complete = nowTime >= targetDateTime;
+
+   if (complete) {
+     return {
+       complete,
+       seconds: 0,
+       minutes: 0,
+       hours: 0,
+     };
+   }
+
+   const secondsRemaining = Math.floor((targetDateTime - nowTime) / 1000);
+   const hours = Math.floor(secondsRemaining / 60 / 60);
+   const minutes = Math.floor(secondsRemaining / 60) - hours * 60;
+   const seconds = secondsRemaining % 60;
+
+   return {
+     complete,
+     seconds,
+     minutes,
+     hours,
+   };
+ }
+
+ function updateAllSegments() {
+   const timeRemainingBits = getTimeRemaining(
+     new Date(targetDate).getTime()
+   );
+
+   updateTimeSection("seconds", timeRemainingBits.seconds);
+   updateTimeSection("minutes", timeRemainingBits.minutes);
+
+   return timeRemainingBits.complete;
+ }
+
+ // Add event listeners to all time preset buttons
+ document.querySelectorAll(".controls button").forEach((button) => {
+   button.addEventListener("click", function () {
+     const timeValue = parseInt(this.getAttribute("data-time"), 10);
+     const timeUnit = this.getAttribute("data-unit");
+     setCountdownTime(timeValue, timeUnit, this);
+   });
+ });
+
+ // Add event listener to reset button
+ document
+   .getElementById("resetButton")
+   .addEventListener("click", resetCurrentTimer);
+
+ // Initialize with default time (30 minutes)
+//  setCountdownTime(30, "minutes");
+
+
+    const button = document.getElementById('toggleButton');
+    button.addEventListener('click', () => {
+      const currentColor = getComputedStyle(document.body).backgroundColor;
+      if (currentColor === 'rgb(29, 31, 39)') {
+        document.body.style.backgroundColor = 'white';
+        document.body.style.color = 'black'; // Adjust text color for visibility
+      } else {
+        document.body.style.backgroundColor = 'rgb(29, 31, 39)';
+        document.body.style.color = 'white'; // Reset text color
+      } button.addEventListener('click', () => {
+        const header = document.querySelector('header');
+        header.classList.toggle('gold-theme');
+    })});
+
+
+    
+    
+
+   

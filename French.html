@@ -1,84 +1,241 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Typing Test with Flip Timer</title>
+  <style>
+    body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; }
+    .typing-text span.correct { color: green; }
+    .typing-text span.incorrect { color: red; }
+    .typing-text span.active { border-bottom: 1px solid black; }
+    .wrapper { margin-top: 20px; }
+    .controls { margin: 10px; }
+    .time-section { display: flex; gap: 5px; }
+    .time-segment { width: 30px; text-align: center; background: #ddd; }
+    .segment-display, .segment-overlay { position: relative; }
+    .segment-overlay.flip { animation: flip 0.5s ease-in-out; }
+    @keyframes flip {
+      0% { transform: rotateX(0); }
+      100% { transform: rotateX(-180deg); }
+    }
+  </style>
 </head>
 <body>
-    <header>
-		<div class="inner">
-			<div class="logo"><a class="logo"  href="Body.html" width: 190px;
-                height: 115px;><img src="Logos/logo.png"></a></div>
-			<div class="burger"></div>
-			<nav>
-				<div class="dropdown">
-                    <span><a>Languages</a></span>
-                    <div class="dropdown-content">
-                        <a href="French.html">French</a>
-                        <a href="Body.html">English</a>
-                    </div>
-                </div>
-				<a href="#">Modes</a>
-                <a href="#">About Us</a>
-				<a href="#">Settings</a>
-			</nav>
-			<a href="#" class="donate-link">Account</a>
-		</div>
-	</header>
 
-    
-
-
-
-    <div class="type" >
-        <div>
-            <label for="timeSelect">Select Timer Duration:</label>
-            <select id="timeSelect">
-                <option onclick="setTime(30)">30s</option>
-                <option onclick="setTime(60)">60s</option>
-                <button onclick="setTime(90)">90s</button>
-            </select>
-        </div>
-        <div class="wrapper">
-            <input type="text" class="input-field">
-            <div class="content-box">
-                <div class="typing-text">
-                    <p id="paragraph"></p>
-                </div>
-                <div class="content">
-                    <ul class="result-details">
-                        <li class="time">
-                            <p>
-                                Time Left:
-                            </p>
-                            <span><b>00:00</b>s</span>
-                        </li>
-                        <li class="mistake">
-                            <p>
-                                Mistakes:
-                            </p>
-                            <span>0</span>
-                        </li>
-                        <li class="wpm">
-                            <p>
-                                WPM:
-                            </p>
-                            <span>0</span>
-                        </li>
-                        <li class="cpm">
-                            <p>
-                                CPM:
-                            </p>
-                            <span>0</span>
-                        </li>
-                    </ul>
-                    <button>Try Again</button>
-                </div>
-            </div>
+  <div class="content">
+    <div class="typing-text"><p></p></div>
+    <div class="wrapper">
+      <input class="input-field" type="text" autofocus />
+      <div class="stats">
+        <div>Time: <span class="time"><b>60</b>s</span></div>
+        <div>Mistakes: <span class="mistake">0</span></div>
+        <div>WPM: <span class="wpm">0</span></div>
+        <div>CPM: <span class="cpm">0</span></div>
+      </div>
     </div>
-    
-    <script src="js/French.js"></script>
+    <button>Try Again</button>
+  </div>
+
+  <div class="controls">
+    <button data-time="1" data-unit="minutes" class="active">1 Minute</button>
+    <button data-time="30" data-unit="seconds">30 Seconds</button>
+    <button id="resetButton">Reset Timer</button>
+  </div>
+
+  <div class="time-section">
+    <div id="minutes" class="time-section">
+      <div class="time-segment">
+        <div class="segment-display"><div class="segment-display__top">0</div><div class="segment-display__bottom">0</div></div>
+        <div class="segment-overlay"><div class="segment-overlay__top">0</div><div class="segment-overlay__bottom">0</div></div>
+      </div>
+      <div class="time-segment">
+        <div class="segment-display"><div class="segment-display__top">1</div><div class="segment-display__bottom">1</div></div>
+        <div class="segment-overlay"><div class="segment-overlay__top">1</div><div class="segment-overlay__bottom">1</div></div>
+      </div>
+    </div>
+    <div id="seconds" class="time-section">
+      <div class="time-segment">
+        <div class="segment-display"><div class="segment-display__top">0</div><div class="segment-display__bottom">0</div></div>
+        <div class="segment-overlay"><div class="segment-overlay__top">0</div><div class="segment-overlay__bottom">0</div></div>
+      </div>
+      <div class="time-segment">
+        <div class="segment-display"><div class="segment-display__top">0</div><div class="segment-display__bottom">0</div></div>
+        <div class="segment-overlay"><div class="segment-overlay__top">0</div><div class="segment-overlay__bottom">0</div></div>
+      </div>
+    </div>
+  </div>
+
+  
+    <script>
+  const paragraphs = [
+    "The quick brown fox jumps over the lazy dog.",
+    "Typing tests help improve your speed and accuracy.",
+    "Practice daily to see consistent improvement.",
+  ];
+
+  const typingText = document.querySelector(".typing-text p");
+  const inpField = document.querySelector(".input-field");
+  const timeTag = document.querySelector(".time span b");
+  const mistakeTag = document.querySelector(".mistake");
+  const wpmTag = document.querySelector(".wpm");
+  const cpmTag = document.querySelector(".cpm");
+  const tryAgainBtn = document.querySelector("button");
+  const countdownButtons = document.querySelectorAll(".controls button[data-time]");
+  const resetButton = document.getElementById("resetButton");
+
+  let timer;
+  let maxTime = 60;
+  let timeLeft = maxTime;
+  let charIndex = 0;
+  let mistakes = 0;
+  let isTyping = false;
+  let targetDate = new Date(Date.now() + maxTime * 1000);
+
+  function loadParagraph() {
+    const randIndex = Math.floor(Math.random() * paragraphs.length);
+    typingText.innerHTML = "";
+    paragraphs[randIndex].split("").forEach(char => {
+      let span = `<span>${char}</span>`;
+      typingText.innerHTML += span;
+    });
+    typingText.querySelectorAll("span")[0].classList.add("active");
+    document.addEventListener("keydown", () => inpField.focus());
+    typingText.addEventListener("click", () => inpField.focus());
+  }
+
+  function initTimer() {
+    if (timeLeft > 0 && isTyping) {
+      timeLeft--;
+      let wpm = Math.round(((charIndex - mistakes) / 5) / (maxTime - timeLeft) * 60);
+      wpm = wpm < 0 || !wpm || wpm === Infinity ? 0 : wpm;
+
+      timeTag.innerText = timeLeft;
+      mistakeTag.innerText = mistakes;
+      wpmTag.innerText = wpm;
+      cpmTag.innerText = charIndex - mistakes;
+    } else {
+      clearInterval(timer);
+    }
+  }
+
+  function startCountdownTimer() {
+    const interval = setInterval(() => {
+      const now = new Date();
+      const diff = targetDate - now;
+
+      if (diff <= 0) {
+        clearInterval(interval);
+        updateCountdownDisplay(0);
+        return;
+      }
+
+      const totalSeconds = Math.floor(diff / 1000);
+      updateCountdownDisplay(totalSeconds);
+    }, 1000);
+  }
+
+  function updateCountdownDisplay(secondsLeft) {
+    const mins = Math.floor(secondsLeft / 60);
+    const secs = secondsLeft % 60;
+    const timeStr = `${String(mins).padStart(2, '0')}${String(secs).padStart(2, '0')}`;
+
+    const segments = document.querySelectorAll(".time-section .time-segment");
+
+    timeStr.split('').forEach((num, i) => {
+      const segment = segments[i];
+      const top = segment.querySelector(".segment-display__top");
+      const bottom = segment.querySelector(".segment-display__bottom");
+      const overlayTop = segment.querySelector(".segment-overlay__top");
+      const overlayBottom = segment.querySelector(".segment-overlay__bottom");
+
+      if (top.textContent !== num) {
+        overlayTop.textContent = top.textContent;
+        overlayBottom.textContent = num;
+
+        segment.querySelector(".segment-overlay").classList.add("flip");
+
+        setTimeout(() => {
+          top.textContent = num;
+          bottom.textContent = num;
+          segment.querySelector(".segment-overlay").classList.remove("flip");
+        }, 500);
+      }
+    });
+  }
+
+  function resetGame() {
+    loadParagraph();
+    clearInterval(timer);
+    timeLeft = maxTime;
+    charIndex = mistakes = 0;
+    isTyping = false;
+    inpField.value = "";
+    timeTag.innerText = timeLeft;
+    mistakeTag.innerText = mistakes;
+    wpmTag.innerText = 0;
+    cpmTag.innerText = 0;
+    targetDate = new Date(Date.now() + maxTime * 1000);
+    updateCountdownDisplay(maxTime);
+    startCountdownTimer();
+  }
+
+  function startGame() {
+    if (!isTyping) {
+      isTyping = true;
+      timer = setInterval(initTimer, 1000);
+      targetDate = new Date(Date.now() + timeLeft * 1000);
+      startCountdownTimer();
+    }
+
+    let characters = typingText.querySelectorAll("span");
+    let typedChar = inpField.value.charAt(charIndex);
+
+    if (charIndex < characters.length && timeLeft > 0) {
+      if (typedChar == null) {
+        if (charIndex > 0) {
+          charIndex--;
+          if (characters[charIndex].classList.contains("incorrect")) {
+            mistakes--;
+          }
+          characters[charIndex].classList.remove("correct", "incorrect");
+        }
+      } else {
+        if (characters[charIndex].innerText === typedChar) {
+          characters[charIndex].classList.add("correct");
+        } else {
+          mistakes++;
+          characters[charIndex].classList.add("incorrect");
+        }
+        charIndex++;
+      }
+      characters.forEach(span => span.classList.remove("active"));
+      if (characters[charIndex]) characters[charIndex].classList.add("active");
+    } else {
+      clearInterval(timer);
+      inpField.value = "";
+    }
+  }
+
+  inpField.addEventListener("input", startGame);
+  tryAgainBtn.addEventListener("click", resetGame);
+
+  countdownButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      countdownButtons.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      let value = parseInt(btn.dataset.time, 10);
+      maxTime = btn.dataset.unit === "minutes" ? value * 60 : value;
+      resetGame();
+    });
+  });
+
+  resetButton.addEventListener("click", resetGame);
+
+  // Initial load
+  loadParagraph();
+  resetGame(); // Automatically sets timer and starts countdown
+</script>
+
 </body>
 </html>

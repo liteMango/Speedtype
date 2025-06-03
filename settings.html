@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About us </title>
+  <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="Css/style.css">
+    <link rel="stylesheet" href="Css/style2.css">
+    <link rel="icon" href="Logos/logo.png" style="size: 72px;">
+</head>
+
+<body>
+  
+  <header>
+		<div class="inner">
+			<div class="logo"><a class="logo"  href="index.html" width: 190px;
+                height: 115px;><img src="Logos/logo.png"></a></div>
+			<div class="burger"></div>
+			<nav>
+				<div class="dropdown">
+                    <span><a>Languages</a></span>
+                    <div class="dropdown-content">
+                      <div id="google_translate_element"></div>
+                    </div>
+
+                    <!-- <span><a>Modes</a></span>
+                    <div class="dropdown-content">
+                        <a href="French.html"  id="myButton">French</a>
+                        <a href="Body.html">English</a>
+                    </div>
+                </div> -->
+				
+                <a href="#">About Us</a>
+				<a href="#">Settings</a>
+			</nav>
+			<a href="#" class="donate-link">Account</a>
+		</div>
+	</header>
+
+<!-- 
+  <button onclick="changeBackgroundColor()">change theme light</button> -->
+  <!-- <button onclick="changeBackgroundtheme()">change theme Dark</button> -->
+  <button onclick="toggleGoldTheme()" id="toggleButton">Toggle Background Color</button>
+
+  <!-- <style>
+    body {
+      background-color: rgb(29, 31, 39);
+      transition: background-color 0.3s ease; /* Smooth transition */
+    }
+
+    header{
+		header.gold-theme {
+			background-color: gold !important;
+			color: gold !important;
+		}
+
+		header.gold-theme {
+			color: rgb(255, 255, 255) !important;
+		}
+    }
+
+  </style> -->
+<style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    header nav a {
+      font-size: 12px;
+      color: #8c8c8e;
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+
+    header nav a.active,
+    header nav a:hover {
+      color: white;
+    }
+
+    /* Gold theme styles */
+    header.gold-theme {
+      background-color: gold;
+      color: gold;
+    }
+
+    header.gold-theme * {
+      color: gold !important;
+      border-color: gold !important;
+    }
+
+    /* Toggle button */
+    .gold-toggle-btn {
+      margin: 20px;
+      padding: 10px 20px;
+      background: #333;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+    }
+  </style>
+</body>
+<script>
+  function googleTranslateElementInit(){
+    new google.translate.TranslateElement(
+      {pageLanguage: "en"},
+      "google_translate_element"
+    )
+  }
+</script>
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<!-- <script>
+    function changeBackgroundColor() {
+        document.body.style.backgroundColor = "white";
+    }
+    function changeBackgroundtheme(){
+        document.body.style.backgroundColor = rgb(29, 31, 39);
+    }
+  </script> -->
+
+ 
+  <script>
+    const button = document.getElementById('toggleButton');
+    button.addEventListener('click', () => {
+      const currentColor = getComputedStyle(document.body).backgroundColor;
+      if (currentColor === 'rgb(29, 31, 39)') {
+        document.body.style.backgroundColor = 'white';
+        document.body.style.color = 'black'; // Adjust text color for visibility
+      } else {
+        document.body.style.backgroundColor = 'rgb(29, 31, 39)';
+        document.body.style.color = 'white'; // Reset text color
+      }
+    });
+
+   </script>
+
+</html>
