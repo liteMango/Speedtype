@@ -1,143 +1,511 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About us </title>
-  <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="Css/style.css">
-    <link rel="stylesheet" href="Css/style2.css">
-    <link rel="icon" href="Logos/logo.png" style="size: 72px;">
-</head>
-
-<body>
-  
-  <header>
-		<div class="inner">
-			<div class="logo"><a class="logo"  href="index.html" width: 190px;
-                height: 115px;><img src="Logos/logo.png"></a></div>
-			<div class="burger"></div>
-			<nav>
-				<div class="dropdown">
-                    <span><a>Languages</a></span>
-                    <div class="dropdown-content">
-                      <div id="google_translate_element"></div>
-                    </div>
-
-                    <!-- <span><a>Modes</a></span>
-                    <div class="dropdown-content">
-                        <a href="French.html"  id="myButton">French</a>
-                        <a href="Body.html">English</a>
-                    </div>
-                </div> -->
-				
-                <a href="#">About Us</a>
-				<a href="#">Settings</a>
-        <button class="themes" onclick="toggleGoldTheme()" id="toggleButton">Toggle Background Color</button>
-			</nav>
-			<a href="#" class="donate-link">Account</a>
-		</div>
-	</header>
-
-<!-- 
-  <button onclick="changeBackgroundColor()">change theme light</button> -->
-  <!-- <button onclick="changeBackgroundtheme()">change theme Dark</button> -->
-  <button onclick="toggleGoldTheme()" id="toggleButton">Toggle Background Color</button>
-
-  <!-- <style>
-    body {
-      background-color: rgb(29, 31, 39);
-      transition: background-color 0.3s ease; /* Smooth transition */
-    }
-
-    header{
-		header.gold-theme {
-			background-color: gold !important;
-			color: gold !important;
-		}
-
-		header.gold-theme {
-			color: rgb(255, 255, 255) !important;
-		}
-    }
-
-  </style> -->
-<style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-    }
-
-    header nav a {
-      font-size: 12px;
-      color: #8c8c8e;
-      text-transform: uppercase;
-      text-decoration: none;
-    }
-
-    header nav a.active,
-    header nav a:hover {
-      color: white;
-    }
-
-    /* Gold theme styles */
-    header.gold-theme {
-      background-color: gold;
-      color: gold;
-    }
-
-    header.gold-theme * {
-      color: gold !important;
-      border-color: gold !important;
-    }
-
-    /* Toggle button */
-    .gold-toggle-btn {
-      margin: 20px;
-      padding: 10px 20px;
-      background: #333;
-      color: white;
-      border: none;
-      cursor: pointer;
-      font-size: 14px;
-    }
-  </style>
-</body>
-<script>
-  function googleTranslateElementInit(){
-    new google.translate.TranslateElement(
-      {pageLanguage: "en"},
-      "google_translate_element"
-    )
-  }
-</script>
-<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
-<!-- <script>
-    function changeBackgroundColor() {
-        document.body.style.backgroundColor = "white";
-    }
-    function changeBackgroundtheme(){
-        document.body.style.backgroundColor = rgb(29, 31, 39);
-    }
-  </script> -->
-
- 
-  <script>
-    const button = document.getElementById('toggleButton');
-    button.addEventListener('click', () => {
-      const currentColor = getComputedStyle(document.body).backgroundColor;
-      if (currentColor === 'rgb(29, 31, 39)') {
-        document.body.style.backgroundColor = 'white';
-        document.body.style.color = 'black'; // Adjust text color for visibility
-      } else {
-        document.body.style.backgroundColor = 'rgb(29, 31, 39)';
-        document.body.style.color = 'white'; // Reset text color
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Settings | Speed Typing Test</title>
+    <link rel="icon" href="Logos/logo.png" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins:400,600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="Css/style.css" />
+    <link rel="stylesheet" href="Css/nav.css" />
+    <style>
+      .settings-container {
+        max-width: 520px;
+        margin: 48px auto;
+        background: var(--surface);
+        border-radius: var(--radius);
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+        padding: 2.7rem 2.2rem 2.3rem 2.2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        align-items: center;
+        animation: fadeIn 0.7s cubic-bezier(0.3, 0.78, 0.42, 1.11);
       }
-    });
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(24px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .settings-header {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--primary);
+        margin-bottom: 8px;
+        text-align: center;
+      }
+      .settings-group {
+        width: 100%;
+        margin: 0 0 12px 0;
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+      }
+      .settings-label {
+        font-weight: 600;
+        color: var(--accent);
+        margin-bottom: 2px;
+        letter-spacing: 0.5px;
+      }
+      .settings-input,
+      select {
+        padding: 10px 13px;
+        border-radius: 11px;
+        border: 1.7px solid var(--input-border);
+        background: var(--input-bg);
+        color: inherit;
+        font-size: 1.05em;
+        font-family: inherit;
+        transition: border 0.14s;
+        outline: none;
+      }
+      select:focus,
+      .settings-input:focus {
+        border-color: var(--primary);
+      }
+      .toggle-switch {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        margin-top: 2px;
+      }
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 52px;
+        height: 28px;
+      }
+      .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: #444c61;
+        border-radius: 18px;
+        transition: 0.2s;
+      }
+      .switch input:checked + .slider {
+        background: var(--primary);
+      }
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 20px;
+        width: 20px;
+        left: 4px;
+        bottom: 4px;
+        background: #fff;
+        border-radius: 50%;
+        transition: 0.2s;
+        box-shadow: 0 2px 8px #0001;
+      }
+      .switch input:checked + .slider:before {
+        transform: translateX(24px);
+      }
+      .settings-footer {
+        margin-top: 14px;
+        text-align: center;
+        color: #bbb;
+        font-size: 0.98em;
+      }
+      @media (max-width: 600px) {
+        .settings-container {
+          padding: 1.2rem 4vw 1.3rem 4vw;
+        }
+        .settings-header {
+          font-size: 1.18rem;
+        }
+        .hamburger {
+          display: block !important;
+        }
+        nav {
+          display: none;
+        }
+      }
+      .save-btn {
+        background: var(--primary);
+        color: #fff;
+        border: none;
+        border-radius: 14px;
+        padding: 13px 30px;
+        font-size: 1.1rem;
+        font-weight: 700;
+        cursor: pointer;
+        margin-top: 15px;
+        box-shadow: 0 2px 9px #007acc21;
+        transition: background 0.16s, color 0.16s;
+      }
+      .save-btn:hover {
+        background: var(--accent);
+        color: #23263a;
+      }
 
-   </script>
+      .hamburger {
+        padding: 15px 15px;
+        display: inline-block;
+        cursor: pointer;
+        transition-property: opacity, filter;
+        transition-duration: 0.15s;
+        transition-timing-function: linear;
+        font: inherit;
+        color: inherit;
+        text-transform: none;
+        background-color: transparent;
+        border: 0;
+        margin: 0;
+        overflow: visible;
+        display: none;
+      }
+      .hamburger:hover {
+        opacity: 0.7;
+      }
+      .hamburger.is-active:hover {
+        opacity: 0.7;
+      }
+      .hamburger.is-active .hamburger-inner,
+      .hamburger.is-active .hamburger-inner::before,
+      .hamburger.is-active .hamburger-inner::after {
+        background-color: white;
+      }
 
+      .hamburger-box {
+        width: 40px;
+        height: 24px;
+        display: inline-block;
+        position: relative;
+      }
+
+      .hamburger-inner {
+        display: block;
+        top: 50%;
+        margin-top: -2px;
+      }
+      .hamburger-inner,
+      .hamburger-inner::before,
+      .hamburger-inner::after {
+        width: 30px;
+        height: 4px;
+        background-color: white;
+        border-radius: 4px;
+        position: absolute;
+        transition-property: transform;
+        transition-duration: 0.15s;
+        transition-timing-function: ease;
+      }
+      .hamburger-inner::before,
+      .hamburger-inner::after {
+        content: "";
+        display: block;
+      }
+      .hamburger-inner::before {
+        top: -10px;
+      }
+      .hamburger-inner::after {
+        bottom: -10px;
+      }
+      .hamburger--spring .hamburger-inner {
+        top: 2px;
+        transition: background-color 0s 0.13s linear;
+      }
+      .hamburger--spring .hamburger-inner::before {
+        top: 10px;
+        transition: top 0.1s 0.2s cubic-bezier(0.33333, 0.66667, 0.66667, 1),
+          transform 0.13s cubic-bezier(0.55, 0.055, 0.675, 0.19);
+      }
+      .hamburger--spring .hamburger-inner::after {
+        top: 20px;
+        transition: top 0.2s 0.2s cubic-bezier(0.33333, 0.66667, 0.66667, 1),
+          transform 0.13s cubic-bezier(0.55, 0.055, 0.675, 0.19);
+      }
+
+      .hamburger--spring.is-active .hamburger-inner {
+        transition-delay: 0.22s;
+        background-color: transparent !important;
+      }
+      .hamburger--spring.is-active .hamburger-inner::before {
+        top: 0;
+        transition: top 0.1s 0.15s cubic-bezier(0.33333, 0, 0.66667, 0.33333),
+          transform 0.13s 0.22s cubic-bezier(0.215, 0.61, 0.355, 1);
+        transform: translate3d(0, 10px, 0) rotate(45deg);
+      }
+      .hamburger--spring.is-active .hamburger-inner::after {
+        top: 0;
+        transition: top 0.2s cubic-bezier(0.33333, 0, 0.66667, 0.33333),
+          transform 0.13s 0.22s cubic-bezier(0.215, 0.61, 0.355, 1);
+        transform: translate3d(0, 10px, 0) rotate(-45deg);
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="inner">
+        <div class="logo">
+          <a href="index.html"><img src="Logos/logo.png" alt="Logo" /></a>
+        </div>
+        <nav id="nav">
+          <div class="dropdown" tabindex="0">
+            <span tabindex="0" aria-haspopup="true" aria-expanded="false"
+              >🌐 Languages</span
+            >
+            <div class="dropdown-content" tabindex="0">
+              <select
+                id="lang-select"
+                style="
+                  width: 100%;
+                  padding: 8px;
+                  font-size: 1rem;
+                  border-radius: 8px;
+                "
+              >
+                <option value="en">English</option>
+                <option value="fr">French</option>
+                <option value="es">Spanish</option>
+                <option value="ig">Igbo</option>
+              </select>
+            </div>
+          </div>
+          <a href="aboutus.html">About Us</a>
+          <a href="settings.html">Settings</a>
+          <button
+            id="modeToggleNav"
+            class="mode-toggle"
+            aria-label="Toggle light/dark mode"
+            title="Toggle light/dark mode"
+          >
+            🌙
+          </button>
+          <a href="#" class="donate-link">Account</a>
+        </nav>
+        <button class="hamburger hamburger--spring" type="button">
+          <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+          </span>
+        </button>
+      </div>
+    </header>
+    <main>
+      <form class="settings-container" id="settingsForm" autocomplete="off">
+        <div class="settings-header">Settings</div>
+
+        <div class="settings-group">
+          <label class="settings-label" for="theme">Theme</label>
+          <div class="toggle-switch">
+            <span>🌙</span>
+            <label class="switch">
+              <input type="checkbox" id="theme" />
+              <span class="slider"></span>
+            </label>
+            <span>☀️</span>
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <label class="settings-label" for="timer-default"
+            >Default Timer</label
+          >
+          <select id="timer-default" class="settings-input">
+            <option value="60">1 Minute</option>
+            <option value="120">2 Minutes</option>
+            <option value="300">5 Minutes</option>
+            <option value="600">10 Minutes</option>
+            <option value="1800">30 Minutes</option>
+          </select>
+        </div>
+
+        <div class="settings-group">
+          <label class="settings-label" for="font-choice">Font Style</label>
+          <select id="font-choice" class="settings-input">
+            <option value="'Poppins', Arial, sans-serif">
+              Poppins (Default)
+            </option>
+            <option value="'Roboto Mono', monospace">Roboto Mono</option>
+            <option value="monospace">Monospace</option>
+            <option value="Arial, sans-serif">Arial</option>
+          </select>
+        </div>
+
+        <button class="save-btn" type="submit">Save Settings</button>
+        <div class="settings-footer">
+          Your preferences will be saved for next time ✨
+        </div>
+      </form>
+    </main>
+    <script>
+      // Theme toggle
+      const themeSwitch = document.getElementById("theme");
+      const navThemeBtn = document.getElementById("modeToggleNav");
+      function setTheme(theme) {
+        document.body.classList.toggle("light", theme === "light");
+        themeSwitch.checked = theme === "light";
+        navThemeBtn.textContent = theme === "light" ? "🌙" : "☀️";
+        localStorage.setItem("theme", theme);
+      }
+      // On load
+      (() => {
+        const theme = localStorage.getItem("theme") || "dark";
+        setTheme(theme);
+        themeSwitch.checked = theme === "light";
+      })();
+      // Event handlers
+      themeSwitch.onchange = () =>
+        setTheme(themeSwitch.checked ? "light" : "dark");
+      navThemeBtn.onclick = () =>
+        setTheme(document.body.classList.contains("light") ? "dark" : "light");
+
+      // Load other settings
+      const timerDefault = document.getElementById("timer-default");
+      const fontChoice = document.getElementById("font-choice");
+      timerDefault.value = localStorage.getItem("timerDefault") || "60";
+      fontChoice.value =
+        localStorage.getItem("fontChoice") || "'Poppins', Arial, sans-serif";
+      document.body.style.fontFamily = fontChoice.value;
+      fontChoice.onchange = function () {
+        document.body.style.fontFamily = this.value;
+      };
+      document.getElementById("settingsForm").onsubmit = function (e) {
+        e.preventDefault();
+        localStorage.setItem("timerDefault", timerDefault.value);
+        localStorage.setItem("fontChoice", fontChoice.value);
+        document.body.style.fontFamily = fontChoice.value;
+        alert("✅ Settings saved!");
+      };
+      const hamburger = document.querySelector(".hamburger");
+      const nav = document.getElementById("nav");
+      hamburger.addEventListener("click", () => {
+        nav.classList.toggle("open");
+        hamburger.classList.toggle("is-active");
+      });
+      // NAV LANGUAGES DROPDOWN
+      const dropdown = document.querySelector(".dropdown");
+      const dropdownContent = dropdown.querySelector(".dropdown-content");
+      dropdown.querySelector("span").addEventListener("click", function (e) {
+        dropdown.classList.toggle("open");
+        this.setAttribute("aria-expanded", dropdown.classList.contains("open"));
+        e.stopPropagation();
+      });
+      dropdownContent.addEventListener("mousedown", function (e) {
+        e.stopPropagation();
+      });
+      dropdownContent.addEventListener("touchstart", function (e) {
+        e.stopPropagation();
+      });
+      document.body.addEventListener("mousedown", function (e) {
+        if (!dropdown.contains(e.target)) dropdown.classList.remove("open");
+      });
+
+      // --- API TRANSLATE ---
+      async function translateViaLecto(textArr, to, from = "en") {
+        if (to === "en") return [...textArr];
+        try {
+          const resp = await fetch(LECTO_ENDPOINT, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+              "X-API-Key": LECTO_API_KEY,
+            },
+            body: JSON.stringify({ texts: textArr, to: [to], from }),
+          });
+          if (!resp.ok) throw new Error("API error " + resp.status);
+          const data = await resp.json();
+          if (
+            !data.translations ||
+            !data.translations[0] ||
+            !Array.isArray(data.translations[0].translated)
+          )
+            throw new Error("API response format error");
+          return data.translations[0].translated;
+        } catch (err) {
+          console.error("Translation API failed:", err);
+          return [...textArr]; // fallback: show original
+        }
+      }
+
+      async function updateLanguageUI() {
+        const lang = langSelect.value;
+        // uiLang = lang;
+        // Translate UI texts
+        let uiKeys = Object.keys(UI_TEXTS);
+        const uiVals = Object.values(UI_TEXTS);
+        let translations = await translateViaLecto(uiVals, lang, "en");
+        uiTranslations = {};
+        for (let i = 0; i < uiKeys.length; ++i)
+          uiTranslations[uiKeys[i]] = translations[i] || uiVals[i];
+        // Update all UI
+        startMsg.textContent = uiTranslations["start-msg"];
+        tryAgainBtn.textContent = uiTranslations["tryAgainBtn"];
+        document.querySelector(".time p").textContent =
+          uiTranslations["timerLeft"];
+        document.querySelector(".mistake p").textContent =
+          uiTranslations["mistakes"];
+        document.querySelector(".wpm p").textContent = uiTranslations["wpm"];
+        document.querySelector(".cpm p").textContent = uiTranslations["cpm"];
+        // Rerun typing text translation + reload
+        resetGame();
+      }
+      langSelect.addEventListener("change", updateLanguageUI);
+
+      async function translateUI(toLang) {
+        if (toLang === "en") {
+          // Restore original
+          document.querySelectorAll("[data-i18n]").forEach((el) => {
+            const key = el.getAttribute("data-i18n");
+            if (UI_TEXTS[key]) el.textContent = UI_TEXTS[key];
+          });
+          return;
+        }
+        const keys = Object.keys(UI_TEXTS);
+        const vals = keys.map((k) => UI_TEXTS[k]);
+        let translated = [];
+        try {
+          const resp = await fetch(LECTO_ENDPOINT, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+              "X-API-Key": LECTO_API_KEY,
+            },
+            body: JSON.stringify({ texts: vals, to: [toLang], from: "en" }),
+          });
+          if (!resp.ok) throw new Error("API error " + resp.status);
+          const data = await resp.json();
+          translated = data.translations?.[0]?.translated || [];
+        } catch (err) {
+          // fallback: leave English
+          translated = vals;
+        }
+        document.querySelectorAll("[data-i18n]").forEach((el) => {
+          const key = el.getAttribute("data-i18n");
+          const idx = keys.indexOf(key);
+          if (idx !== -1) el.textContent = translated[idx] || vals[idx];
+        });
+      }
+
+      // --- Language change event ---
+      const langSelect = document.getElementById("lang-select");
+      langSelect.addEventListener("change", (e) => {
+        const lang = langSelect.value;
+        translateUI(lang);
+      });
+
+      // On page load, set UI language to English by default:
+      translateUI("en");
+    </script>
+    <script></script>
+  </body>
 </html>
