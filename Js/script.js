@@ -352,6 +352,25 @@ tryAgainBtn.addEventListener("click", resetGame);
         header.classList.toggle('gold-theme');
     })});
 
+    // Example Express route
+app.post('/api/submit-wpm', (req, res) => {
+  const { username, wpm } = req.body;
+  
+  // Load current leaderboard
+  const leaderboard = JSON.parse(fs.readFileSync('leaderboard.json'));
+  
+  leaderboard.push({ username, wpm });
+  
+  // Optional: Sort and keep top 10
+  leaderboard.sort((a, b) => b.wpm - a.wpm);
+  const top10 = leaderboard.slice(0, 10);
+
+  fs.writeFileSync('leaderboard.json', JSON.stringify(top10));
+  
+  res.json({ success: true });
+});
+
+
 
     
     
