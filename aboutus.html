@@ -1,66 +1,500 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About us </title>
-  <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="Css/style.css">
-    <link rel="stylesheet" href="Css/style2.css">
-    <link rel="icon" href="Logos/logo.png" style="size: 72px;">
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About Us | Instant Type</title>
+    <link rel="icon" href="Logos/logo.png" />
+    <link rel="stylesheet" href="Css/style.css" />
+    <link rel="stylesheet" href="Css/nav.css" />
+    <style>
+      .donate-link {
+        background: var(--accent2);
+        color: #191d30 !important;
+        border-radius: 12px;
+        padding: 7px 18px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        margin-left: 10px;
+        transition: filter 0.14s;
+      }
+      .donate-link:hover {
+        filter: brightness(1.09);
+        text-decoration: none;
+      }
+      .mode-toggle {
+        background: none;
+        border: none;
+        color: var(--accent);
+        font-size: 1.5rem;
+        cursor: pointer;
+        transition: color 0.2s;
+        margin-left: 3px;
+      }
+      main {
+        width: 100%;
+        margin: 0 auto;
+        padding: 0;
+      }
+      .controls {
+        display: grid;
+        grid-template-columns: repeat(8, minmax(80px, 1fr));
+        gap: 13px;
+        max-width: 750px;
+        margin: 36px auto 18px auto;
+        justify-content: center;
+        padding: 0 6vw;
+      }
+      .controls button,
+      .reset-button {
+        padding: 11px;
+        font-size: 0.8rem;
+        border-radius: 12px;
+        border: 1.5px solid var(--accent);
+        background: #212d42;
+        color: var(--accent);
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.16s, color 0.16s, border 0.16s;
+        width: 100%;
+        min-width: 0;
+        min-height: 44px;
+        box-sizing: border-box;
+      }
+      .controls button.active,
+      .controls button:hover,
+      .reset-button:hover {
+        background: var(--accent);
+        color: #fff;
+        border-color: var(--accent);
+      }
+      .wrapper {
+        width: 100%;
+        max-width: 740px;
+        margin: 0 auto;
+        padding: 36px 22px 26px 22px;
+        background: var(--input-bg);
+        border-radius: var(--radius);
+        box-shadow: var(--box-shadow);
+        margin-top: 12px;
+        position: relative;
+        transition: background 0.18s;
+        min-height: 340px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        box-sizing: border-box;
+        font-size: 14px !important;
+      }
+      /* HERO SECTION */
+      .hero-about {
+        width: 100%;
+        background: linear-gradient(120deg, #151a2e 60%, #133f68 120%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        padding: 4vw 2vw 2vw 2vw;
+        position: relative;
+        z-index: 2;
+        overflow: hidden;
+      }
+      .hero-about::before {
+        content: "";
+        position: absolute;
+        left: -20vw;
+        top: -40px;
+        width: 90vw;
+        height: 360px;
+        background: radial-gradient(
+          circle at 50% 80%,
+          var(--primary-glow),
+          transparent 70%
+        );
+        filter: blur(16px);
+        z-index: 0;
+        pointer-events: none;
+      }
+      .hero-logo {
+        width: 90px;
+        height: 90px;
+        border-radius: 24px;
+        margin-bottom: 1.4rem;
+        box-shadow: 0 4px 32px #0078ff34;
+        object-fit: contain;
+        /* background: #fff; */
+        z-index: 1;
+      }
+      .hero-title {
+        font-size: 2.6rem;
+        font-weight: 800;
+        color: var(--primary);
+        letter-spacing: 0.01em;
+        z-index: 1;
+        text-shadow: 0 2px 18px #0078ff24;
+        margin-bottom: 0.4rem;
+      }
+      .hero-tagline {
+        color: var(--accent);
+        font-size: 1.16rem;
+        margin-bottom: 2.4rem;
+        z-index: 1;
+        font-weight: 600;
+        text-align: center;
+      }
+      @media (max-width: 570px) {
+        .hero-title {
+          font-size: 1.4rem;
+        }
+        .hero-logo {
+          width: 56px;
+          height: 56px;
+        }
+        .hero-tagline {
+          font-size: 0.98rem;
+        }
+      }
+      /* ABOUT CARD */
+      .about-card {
+        background: var(--glass-bg);
+        border-radius: var(--radius);
+        box-shadow: 0 8px 36px #0078ff1c;
+        padding: 2.5rem 2.2rem 1.9rem 2.2rem;
+        max-width: 640px;
+        margin: -50px auto 2.5rem auto;
+        backdrop-filter: blur(9px) saturate(130%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.1rem;
+        border: 1.7px solid #36c7fa21;
+        z-index: 2;
+        margin-block: 40px;
+        border-color: plum;
+        animation: cardFadeIn 0.8s cubic-bezier(0.3, 0.73, 0.42, 1.11);
+      }
+      @keyframes cardFadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(40px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .about-card h2 {
+        color: var(--primary);
+        font-size: 2.1rem;
+        font-weight: 700;
+        margin: 0 0 10px 0;
+        text-align: center;
+        letter-spacing: 0.01em;
+      }
+      .about-card p {
+        color: var(--text-secondary);
+        font-size: 1.19rem;
+        text-align: center;
+        line-height: 1.8;
+        letter-spacing: 0.007em;
+        margin-bottom: 0;
+      }
+      .about-highlight {
+        color: var(--accent);
+        font-weight: 700;
+        text-shadow: 0 1px 8px #ffd70022;
+      }
+      @media (max-width: 620px) {
+        .about-card {
+          padding: 1.4rem 4vw;
+          margin-top: -40px;
+        }
+        .about-card h2 {
+          font-size: 1.13rem;
+        }
+        .about-card p {
+          font-size: 1.02rem;
+        }
+        .about-card {
+          background: var(--glass-bg);
+          border-radius: var(--radius);
+          box-shadow: 0 8px 36px #0078ff1c;
+          padding: 2.5rem 2.2rem 1.9rem 2.2rem;
+          max-width: 640px;
+          margin: -50px auto 2.5rem auto;
+          backdrop-filter: blur(9px) saturate(130%);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 1.1rem;
+          border: 1.7px solid #36c7fa21;
+          z-index: 2;
+          margin-block: 50px;
+          border-color: white;
+          animation: cardFadeIn 0.8s cubic-bezier(0.3, 0.73, 0.42, 1.11);
+        }
+      }
+      /* FEATURE GRID */
+      .features-section {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-top: 1.2rem;
+        margin-bottom: 2.4rem;
+      }
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(225px, 1fr));
+        gap: 2.1rem;
+        max-width: 950px;
+        margin: 0 auto;
+        width: 100%;
+      }
+      .feature-card {
+        background: #222b3ba6;
+        border-radius: 18px;
+        padding: 1.3rem 1.1rem;
+        box-shadow: 0 2px 12px #0099ff1c;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+        border-left: 5px solid var(--primary);
+        position: relative;
+        overflow: hidden;
+        transition: border 0.18s, box-shadow 0.18s;
+      }
 
-<body>
-  
-  <header>
-		<div class="inner">
-			<div class="logo"><a class="logo"  href="index.html" width: 190px;
-                height: 115px;><img src="Logos/logo.png"></a></div>
-			<div class="burger"></div>
-			<nav>
-				<div class="dropdown">
-                    <span><a>Languages</a></span>
-                    <div class="dropdown-content">
-                      <div id="google_translate_element"></div>
-                    </div>
+      .feature-card:hover {
+        border-color: var(--accent);
+        box-shadow: 0 4px 22px #ffd7002a;
+      }
+      .feature-card .feature-icon {
+        font-size: 2.1rem;
+        color: var(--accent);
+        margin-bottom: 6px;
+        display: inline-block;
+        filter: drop-shadow(0 1px 8px #ffd70023);
+        animation: popIn 0.7s cubic-bezier(0.1, 0.7, 0.25, 1.16);
+      }
+      @keyframes popIn {
+        from {
+          opacity: 0;
+          transform: scale(0.8);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+      .feature-title {
+        color: var(--primary);
+        font-weight: 700;
+        font-size: 1.14rem;
+        margin-bottom: 2px;
+      }
+      .feature-desc {
+        color: var(--text-secondary);
+        font-size: 1.05rem;
+        line-height: 1.5;
+        margin: 0;
+      }
+      @media (max-width: 900px) {
+        .features-grid {
+          gap: 1.3rem;
+        }
+        .feature-card {
+          padding: 1rem 0.7rem;
+        }
+      }
+      @media (max-width: 520px) {
+        .features-section {
+          margin-bottom: 1.2rem;
+        }
+        .features-grid {
+          gap: 0.7rem;
+        }
+        .feature-card {
+          padding: 0.7rem 0.6rem;
+        }
+      }
 
-                    <!-- <span><a>Modes</a></span>
-                    <div class="dropdown-content">
-                        <a href="French.html"  id="myButton">French</a>
-                        <a href="Body.html">English</a>
-                    </div>
-                </div> -->
-				
-                <a href="#">About Us</a>
-				<a href="#">Settings</a>
-        <button class="themes" onclick="toggleGoldTheme()" id="toggleButton">Toggle Background Color</button>
-			</nav>
-			<a href="#" class="donate-link">Account</a>
-		</div>
-	</header>
+      /* LANGUAGES/TRANSLATE - in nav */
+      #google_translate_element {
+        min-width: 170px;
+        margin-bottom: 5px;
+      }
+      /* Microinteraction: toast for translate textarea */
+      .translate-toast {
+        position: fixed;
+        bottom: 28px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #1e2746ee;
+        color: var(--accent);
+        padding: 13px 2.2rem;
+        border-radius: 22px;
+        box-shadow: 0 2px 20px #ffd70033;
+        font-size: 1.1rem;
+        font-weight: 700;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.28s;
+        z-index: 1202;
+      }
+      .translate-toast.active {
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="inner">
+        <div class="logo">
+          <a href="index.html"><img src="Logos/logo.png" alt="Logo" /></a>
+        </div>
+        <nav id="nav">
+          <div class="dropdown" tabindex="0">
+            <span tabindex="0" aria-haspopup="true" aria-expanded="false"
+              >🌐 Languages</span
+            >
+            <div class="dropdown-content" tabindex="0">
+              <select
+                id="lang-select"
+                style="
+                  width: 100%;
+                  padding: 8px;
+                  font-size: 1rem;
+                  border-radius: 8px;
+                "
+              >
+                <option value="en">English</option>
+                <option value="fr">French</option>
+                <option value="es">Spanish</option>
+                <option value="ig">Igbo</option>
+              </select>
+            </div>
+          </div>
+          <a href="aboutus.html">About Us</a>
+          <a href="settings.html">Settings</a>
+          <button
+            id="modeToggleNav"
+            class="mode-toggle"
+            aria-label="Toggle light/dark mode"
+            title="Toggle light/dark mode"
+          >
+            🌙
+          </button>
+          <a href="#" class="donate-link">Account</a>
+        </nav>
+        <button class="hamburger hamburger--spring" type="button">
+          <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+          </span>
+        </button>
+      </div>
+    </header>
 
+    <main>
+      <!-- HERO -->
+      <section class="hero-about">
+        <img src="Logos/logo.png" class="hero-logo" alt="Instant Type logo" />
 
-  <img src="Logos/logo.png" alt="" class="" style="margin-top: 100px; width: 500px;">
-
-  <b>About us</b>
-  <div class="biography">
-  <div class="paragraph"><p>
-    At Instant Type, we’re passionate about helping people become faster, more accurate typists—instantly. Our platform offers a sleek, distraction-free space to practice typing skills, whether you're a beginner learning the basics or an expert aiming to improve your speed. With real-time feedback, customizable challenges, and progress tracking, Instant Type makes learning to type both effective and enjoyable. Join us and start typing smarter, not harder.</p></div>
-</div>
-  
-
-</body>
-<script>
-  function googleTranslateElementInit(){
-    new google.translate.TranslateElement(
-      {pageLanguage: "en"},
-      "google_translate_element"
-    )
-  }
-</script>
-<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
-
+        <h1 class="hero-title">About Instant Type</h1>
+        <div class="hero-tagline">Typing smarter, not harder. 🚀</div>
+      </section>
+      <!-- GLASSY CARD -->
+      <section class="about-card">
+        <h2>Why Instant Type?</h2>
+        <p>
+          At <span class="about-highlight">Instant Type</span>, we’re dedicated
+          to helping people become
+          <b>faster, more accurate typists—instantly</b>. <br /><br />
+          Our platform is designed for
+          <span class="about-highlight">all skill levels</span>: beginners can
+          build up muscle memory, while advanced typists fine-tune their speed
+          and precision. <br /><br />
+          Featuring <span class="about-highlight">real-time feedback</span>,
+          <span class="about-highlight">customizable challenges</span>, and
+          <span class="about-highlight">progress tracking</span>, Instant Type
+          makes learning to type effective and fun. <br /><br />
+          <b>Join us today and unlock your typing potential.</b>
+        </p>
+      </section>
+      <!-- FEATURES -->
+      <section class="features-section">
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">⚡</div>
+            <div class="feature-title">Instant Feedback</div>
+            <div class="feature-desc">
+              See your speed, accuracy, and mistakes as you type. Every
+              keystroke helps you improve.
+            </div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🎯</div>
+            <div class="feature-title">Custom Challenges</div>
+            <div class="feature-desc">
+              Set your own time, pick your difficulty, and practice at your own
+              pace with fully customizable tests.
+            </div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">📈</div>
+            <div class="feature-title">Progress Tracking</div>
+            <div class="feature-desc">
+              Track your improvement over time and unlock personal
+              bests—motivation built in!
+            </div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🌍</div>
+            <div class="feature-title">Global & Multilingual</div>
+            <div class="feature-desc">
+              Practice in any language—translate texts right here and test
+              yourself in English, French, Spanish, and more.
+            </div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">✨</div>
+            <div class="feature-title">Distraction-Free Design</div>
+            <div class="feature-desc">
+              A sleek, modern interface keeps you focused. No ads, no
+              clutter—just pure typing.
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <!-- Toast for translate copy -->
+    <div class="translate-toast" id="translateToast">
+      Copied to Typing Area!
+    </div>
+    <script>
+      // Google Translate init
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement(
+          { pageLanguage: "en" },
+          "google_translate_element"
+        );
+      }
+      // Copy to Typing Area toast
+      document.addEventListener("DOMContentLoaded", () => {
+        const copyBtn = document.getElementById("copy-translate");
+        const toast = document.getElementById("translateToast");
+        if (copyBtn) {
+          copyBtn.onclick = () => {
+            const text = copyBtn.previousElementSibling.value;
+            if (text.trim()) {
+              navigator.clipboard.writeText(text.trim());
+              toast.classList.add("active");
+              setTimeout(() => toast.classList.remove("active"), 1600);
+            }
+          };
+        }
+      });
+    </script>
+    <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  </body>
 </html>
