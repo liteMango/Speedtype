@@ -11,105 +11,30 @@ loginBtn.addEventListener('click', () => {
 })
 
 
-const client = new Appwrite.Client()
+// Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword} from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+  import {getFirestore, setDoc, doc} from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js"
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
 
-client
-    .setEndpoint('https://cloud.appwrite.io/v1')
-    .setProject('684e081a001463b9b7c3') // Replace with your project ID
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyAFtTW8f-AW1a8cT03naEBfZ6tBVyYSibM",
+    authDomain: "sign-2926b.firebaseapp.com",
+    databaseURL: "https://sign-2926b-default-rtdb.firebaseio.com",
+    projectId: "sign-2926b",
+    storageBucket: "sign-2926b.firebasestorage.app",
+    messagingSenderId: "619679599192",
+    appId: "1:619679599192:web:80d3021115a2f33662982d",
+    measurementId: "G-JHZX1NMTNG"
+  };
 
-const account = new Appwrite.Account(client)
-const databases = new Appwrite.Databases(client)
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
 
-const signupForm = document.getElementById(
-    "login" 
-)
-
-
-signupForm.addEventListener("submit", async (e) => {
-  // preventing the default behaviour of refreshing the page when the form is submitted
-  e.preventDefault();
-
-  // Perform some form validations
-  const name = document.getElementById("name").value.trim();
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value.trim();
-  console.log(email, name, password);
-
-  // form validation logic
-  if (!name || !email || !password) {
-    Toastify({
-      text: "Please Fill in all fields",
-      backgroundColor: "red",
-      duration: 3000,
-    }).showToast();
-    return;
-  }
-  if (password.length < 8) {
-    Toastify({
-      text: "Password must be at least 6 characters long",
-      backgroundColor: "red",
-      duration: 3000,
-    }).showToast();
-    return;
-  }
-
-  // Step 1 create a user
-  const userResponse = await account.create(
-    Appwrite.ID.unique(),
-    email,
-    password
-  );
-  console.log("User created sucessfully");
-
-  // step 2 Log the user in to get an authenticated session
-  await account.createEmailPasswordSession(email, password);
-
-  // Step 3 update the user's name
-  await account.updateName(name);
-  console.log("Name updated succesfully");
-  // Show a success message using toastify
-  Toastify({
-    text: "Account created successfully! Redirecting...",
-    backgroundColor: "green",
-    duration: 3000,
-  }).showToast();
-  // redirect the user to the login page
-  setTimeout(() => {
-    window.location.href = "index.html";
-  }, 3000);
-});
-
-
-
-// loginForm.addEventListener("submit", (event) => {
-//   event.preventDefault();
-//   //   Get the email and password
-//   const email = document.getElementById("loginEmail").value;
-//   const password = document.getElementById("loginPassword").value;
-
-//   //creating a session by calling the appwrite create session for login
-//   account
-//     .createEmailPasswordSession(email, password)
-//     .then((response) => {
-//       console.log("user logged in successfully", response);
-//       // show a toast message
-//       Toastify({
-//         text: "Login successful! Redirecting !!!",
-//         backgroundColor: "green",
-//         duration: 3000,
-//       }).showToast();
-
-//       // wait a little for the toast to show before redirecting
-//       setTimeout(() => {
-//         window.location.href = "index.html";
-//       }, 3000);
-//     })
-//     .catch((err) => {
-//       console.log("Error logging in", err);
-//       Toastify({
-//         text: "Error!" + err.message,
-//         backgroundColor: "red",
-//         duration: 3000,
-//       }).showToast();
-//     });
-// });
+  const signup = document.getElementById('submitSignUp');
+  signUp.addEventListener('click', (event)=>{
+    event.preventDefault
+  })
