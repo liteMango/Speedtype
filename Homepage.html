@@ -298,7 +298,7 @@
             >
             <div class="dropdown-content" tabindex="0">
               <select
-                id="lang-select"
+                id="langSelect"
                 style="
                   width: 100%;
                   padding: 8px;
@@ -322,22 +322,27 @@
           >
             🌙
           </button>
-          <a href="/Login/register.html" class="donate-link">Account</a>
-        </nav>
+          <a href="/Login/register.html" class="donate-link" id="accountLink">Account</a>        
+          </nav>
         <button class="hamburger hamburger--spring" type="button">
           <span class="hamburger-box">
             <span class="hamburger-inner"></span>
           </span>
         </button>
-        <!-- Login Form -->
-<h2 id="welcomeMsg"></h2>
-    <div>First Name: <span id="loggedUserFName"></span></div>
-    <div>Email: <span id="loggedUserEmail"></span></div>
-    <button id="logout">Logout</button>
-<!-- Logged-in view -->
-
+         <header class="header-bar" id="userHeader" style="display: none;">
+    <h2 id="welcomeMsg">Welcome!</h2>
+    <div class="user-details">
+      <!-- <span>First Name: <strong id="loggedUserFName"></strong></span> -->
+      <!-- <span>Email: <strong id="loggedUserEmail"></strong></span> -->
+      <button id="logout">Logout</button>
+    </div>
+  </header>
       </div>
+      
     </header>
+    <!-- Login Form -->
+    
+<!-- Logged-in view -->
     <main>
       <div class="wrapper" id="typing-container">
         <div class="timer-display" id="visual-timer">01:00</div>
@@ -384,7 +389,7 @@
         <button id="resetButton" class="reset-button">Reset Timer</button>
       </div>
     </main>
-    <script src="Js/translation.js"></script>
+    <script type="module" src="Js/translation.js"></script>
     <script type="module"  src="Login/homepage.js"></script>
 
     <script>
@@ -450,6 +455,7 @@
       }
 
       async function updateLanguageUI() {
+        const langSelect = document.getElementById("langSelect");
         const lang = langSelect.value;
         uiLang = lang;
         // Translate UI texts
@@ -481,5 +487,45 @@
       // INITIALIZE
       updateLanguageUI();
     </script>
+
+    <script>
+    function updateView() {
+      const user = JSON.parse(localStorage.getItem("user"));
+      const accountLink = document.getElementById("accountLink");
+      const userHeader = document.getElementById("userHeader");
+      console.log("user", user);
+      const firstname = (localStorage.getItem("firstName"));
+      if (user) {
+        accountLink.style.display = "none";
+        userHeader.style.display = "flex";
+
+        document.getElementById("welcomeMsg").textContent = `Welcome, ${user.displayName}!`;
+        // document.getElementById("loggedUserFName").textContent = user.firstName;
+        // document.getElementById("loggedUserEmail").textContent = user.email;
+      } else {
+        accountLink.style.display = "inline-block";
+        userHeader.style.display = "none";
+      }
+    }
+
+    // Logout button inside the user header
+    document.addEventListener("DOMContentLoaded", () => {
+      const logoutBtn = document.getElementById("logout");
+      if (logoutBtn) {
+        logoutBtn.addEventListener("click", () => {
+          localStorage.removeItem("user");
+          updateView();
+        });
+      }
+
+      // Initialize the view based on login state
+      updateView();
+    });
+  
+  </script>
+
+
+    
+
   </body>
 </html>

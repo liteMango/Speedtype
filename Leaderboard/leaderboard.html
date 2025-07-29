@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+ <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Speed Typing Test</title>
-    <link rel="icon" href="Logos/logo.png" />
+    <link rel="icon" href="/Logos/logo.png" />
     <link
       href="https://fonts.googleapis.com/css?family=Poppins:400,600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="Css/nav.css" />
+    <link rel="stylesheet" href="../Css/nav.css" />
+    <link rel="stylesheet" href="leaderboard.css">
     <style>
       .donate-link {
         background: var(--accent2);
@@ -298,7 +300,7 @@
             >
             <div class="dropdown-content" tabindex="0">
               <select
-                id="lang-select"
+                id="langSelect"
                 style="
                   width: 100%;
                   padding: 8px;
@@ -313,8 +315,9 @@
               </select>
             </div>
           </div>
-          <a href="aboutus.html">About Us</a>
-          <a href="settings.html">Settings</a>
+          <a href="../aboutus.html">About Us</a>
+          <a href="leaderboard.html">Leaderboard</a>
+          <a href="../settings.html">Settings</a>
           <button
             class="mode-toggle"
             aria-label="Toggle light/dark mode"
@@ -322,71 +325,46 @@
           >
             🌙
           </button>
-          <a href="/Login/register.html" class="donate-link">Account</a>
-        </nav>
+          <a href="/Login/register.html" class="donate-link" id="accountLink">Account</a>        
+          </nav>
         <button class="hamburger hamburger--spring" type="button">
           <span class="hamburger-box">
             <span class="hamburger-inner"></span>
           </span>
         </button>
-        <!-- Login Form -->
-<h2 id="welcomeMsg"></h2>
-    <div>First Name: <span id="loggedUserFName"></span></div>
-    <div>Email: <span id="loggedUserEmail"></span></div>
-    <button id="logout">Logout</button>
-<!-- Logged-in view -->
-
+         <header class="header-bar" id="userHeader" style="display: none;">
+    <h2 id="welcomeMsg">Welcome!</h2>
+    <div class="user-details">
+      <!-- <span>First Name: <strong id="loggedUserFName"></strong></span> -->
+      <!-- <span>Email: <strong id="loggedUserEmail"></strong></span> -->
+      <button id="logout">Logout</button>
+    </div>
+  </header>
       </div>
+      
     </header>
-    <main>
-      <div class="wrapper" id="typing-container">
-        <div class="timer-display" id="visual-timer">01:00</div>
-        <div class="start-msg" id="start-msg">Start typing to begin!</div>
-        <div class="end-msg" id="end-msg"></div>
-        <div class="typing-text"><p id="paragraph"></p></div>
-        <div class="content">
-          <ul class="result-details">
-            <li class="time">
-              <p>Time Left:</p>
-              <span class="timer-in-container">01:00</span>
-            </li>
-            <li class="mistake">
-              <p>Mistakes:</p>
-              <span>0</span>
-            </li>
-            <li class="wpm">
-              <p>WPM:</p>
-              <span>0</span>
-            </li>
-            <li class="cpm">
-              <p>CPM:</p>
-              <span>0</span>
-            </li>
-          </ul>
-          <button id="tryAgainBtn">Try Again</button>
-        </div>
-        <div class="loader" id="loader" style="display: none">
-          <div class="lds-ring">
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-        </div>
-      </div>
-      <div class="controls">
-        <button data-time="10" data-unit="seconds">10s</button>
-        <button data-time="20" data-unit="seconds">20s</button>
-        <button data-time="30" data-unit="seconds">30s</button>
-        <button data-time="1" data-unit="minutes">1m</button>
-        <button data-time="5" data-unit="minutes">5m</button>
-        <button data-time="10" data-unit="minutes">10m</button>
-        <button data-time="30" data-unit="minutes" class="active">30m</button>
-        <button id="resetButton" class="reset-button">Reset Timer</button>
-      </div>
-    </main>
-    <script src="Js/translation.js"></script>
-    <script type="module"  src="Login/homepage.js"></script>
 
+<h1>Leaderboard</h1>
+
+<form id="entryForm">
+  <button id="resetBtn">Reset Leaderboard</button>
+</form>
+
+<table id="leaderboard">
+  <thead>
+    <tr>
+      <th>Rank</th>
+      <th>PlayerName</th>
+      <th>WPM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Leaderboard rows will be added here -->
+  </tbody>
+</table>
+
+<script type="module" src="leaderboard.js"></script>
+<script type="module" src="../Js/translation.js"></script>
     <script>
       // LIGHT/DARK MODE TOGGLE
       const modeBtn = document.querySelector(".mode-toggle");
@@ -450,6 +428,7 @@
       }
 
       async function updateLanguageUI() {
+        const langSelect = document.getElementById("langSelect");
         const lang = langSelect.value;
         uiLang = lang;
         // Translate UI texts
@@ -481,5 +460,46 @@
       // INITIALIZE
       updateLanguageUI();
     </script>
-  </body>
+
+    <script>
+    function updateView() {
+      const user = JSON.parse(localStorage.getItem("user"));
+      const accountLink = document.getElementById("accountLink");
+      const userHeader = document.getElementById("userHeader");
+      console.log("user", user);
+      const firstname = (localStorage.getItem("firstName"));
+      if (user) {
+        accountLink.style.display = "none";
+        userHeader.style.display = "flex";
+
+        document.getElementById("welcomeMsg").textContent = `Welcome, ${user.displayName}!`;
+        // document.getElementById("loggedUserFName").textContent = user.firstName;
+        // document.getElementById("loggedUserEmail").textContent = user.email;
+      } else {
+        accountLink.style.display = "inline-block";
+        userHeader.style.display = "none";
+      }
+    }
+
+    // Logout button inside the user header
+    document.addEventListener("DOMContentLoaded", () => {
+      const logoutBtn = document.getElementById("logout");
+      if (logoutBtn) {
+        logoutBtn.addEventListener("click", () => {
+          localStorage.removeItem("user");
+          updateView();
+        });
+      }
+
+      // Initialize the view based on login state
+      updateView();
+    });
+  
+  </script>
+
+
+</body>
 </html>
+
+
+

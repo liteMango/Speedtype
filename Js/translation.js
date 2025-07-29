@@ -1,3 +1,4 @@
+
 // ---------------- TRANSLATION LOGIC ---------------------
 const LECTO_API_KEY = "HQV0Q3X-HSZ4MA8-H78HQCX-QXWANF9";
 const LECTO_ENDPOINT = "https://api.lecto.ai/v1/translate/text";
@@ -11,6 +12,9 @@ const UI_TEXTS = {
   "end-done": "🎉 Well done! You finished typing the entire passage!",
   "end-timeout": "⏰ Time's up! Try again to improve your speed.",
 };
+
+import{ doc, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js"
+import{ auth, db} from "../Login/firebaseauth"
 // --------- 2000+ word content: --------------
 const TYPING_PARAGRAPHS = [
   // Each string should be a paragraph, aim for about 300-400+ words per paragraph, repeat, and vary as needed
@@ -159,6 +163,8 @@ function inpHandler(e) {
     if (charIndex < currentChars.length) {
       currentChars[charIndex].classList.add("active");
     }
+
+
     let wpm = Math.round(
       (charIndex - mistakes) / 5 / ((maxTime - timeLeft) / 60)
     );
@@ -168,6 +174,34 @@ function inpHandler(e) {
     if (charIndex >= currentChars.length) {
       finishTest(true);
     }
+    
+async function updateUserWPM(wpm) {
+  const user = auth.currentUser;
+  if (!user) return;
+
+  const userRef = doc(db, "users", user.uid);
+
+  await updateDoc(userRef,{
+    wpm: wpm
+  });
+}
+
+async function updateUserWPMIfHigher(newWpm) {
+  const user = auth.currentUser;
+  if (!user) return;
+
+  const userRef = doc(db, "users", user.uid);
+  const docSnap = await getDoc(userRef);
+
+  if (docSnap.exists()) {
+    const currentWPM = docSnap.data().wpm || 0;
+
+    if (newWpm > currentWPM) {
+      await updateDoc(userRef, {wpm: newWpm});
+      console.log("wpm updated to :", newWpm)
+    }
+  }
+};
   }
 }
 function startTimer() {
@@ -259,3 +293,7 @@ document.addEventListener("keydown", function (e) {
 typingContainer.setAttribute("tabindex", "0");
 typingContainer.addEventListener("click", () => typingContainer.focus());
 setTimeout(() => typingContainer.focus(), 400);
+
+
+
+ 

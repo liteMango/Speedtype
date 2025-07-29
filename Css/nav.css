@@ -48,9 +48,11 @@ body.light header {
   margin: 0 auto;
   padding: 0 2vw;
   height: 80px;
+  gap: 2rem;
+  margin-right: 225px;
 }
 .logo img {
-  height: 54px;
+  height: 100px;
   width: auto;
   border-radius: 0;
   background: none;
@@ -61,10 +63,13 @@ nav {
   display: flex;
   gap: 2rem;
   align-items: center;
+  justify-content: center; /* This centers the items */
+  padding: 1rem;
+  text-align: center;
 }
 nav a,
 nav button.mode-toggle {
-  color: #bbb;
+  color: hsl(0, 0%, 100%);
   font-size: 1rem;
   background: none;
   border: none;
@@ -73,6 +78,7 @@ nav button.mode-toggle {
   border-radius: 8px;
   cursor: pointer;
   transition: background 0.14s, color 0.14s;
+  text-wrap: nowrap;
 }
 nav a:hover,
 nav button.mode-toggle:hover {
@@ -120,6 +126,8 @@ nav .dropdown > span {
   border-radius: 7px;
   transition: background 0.13s;
   user-select: none;
+  text-wrap: nowrap;
+  
 }
 nav .dropdown > span:hover,
 nav .dropdown > span:focus {
@@ -257,3 +265,44 @@ nav .dropdown > span:focus {
     display: block;
   }
 }
+
+
+#welcomeMsg {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+  color: #ffffff;
+  padding-right: 10px;
+}
+
+/* User details container */
+.user-details {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  font-size: 14px;
+  color: #444;
+}
+
+/* Styling for spans and bold text */
+.user-details span {
+  white-space: nowrap;
+}
+
+/* Logout button */
+#logout {
+  padding: 6px 12px;
+  background-color: #007BFF;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#logout:hover {
+  background-color: #0056b3;
+}
+
+

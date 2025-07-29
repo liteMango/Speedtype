@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Leaderboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f2f2f2;
+      padding: 2rem;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    #leaderboard {
+      margin-top: 2rem;
+      display: inline-block;
+      text-align: left;
+      background: white;
+      padding: 1rem 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .user-row {
+      margin: 0.5rem 0;
+      font-size: 1.1rem;
+    }
+
+    .top {
+      font-weight: bold;
+      color: goldenrod;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🏆 WPM Leaderboard</h1>
+  <div id="leaderboard">Loading...</div>
+
+  <!-- Firebase App (modular SDK) -->
+  <script type="module">
+    // Import Firebase modules
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    // Your Firebase config
+    const firebaseConfig = {
+apiKey: "AIzaSyAFtTW8f-AW1a8cT03naEBfZ6tBVyYSibM",
+  authDomain: "sign-2926b.firebaseapp.com",
+  databaseURL: "https://sign-2926b-default-rtdb.firebaseio.com",
+  projectId: "sign-2926b",
+  storageBucket: "sign-2926b.firebasestorage.app",
+  messagingSenderId: "619679599192",
+  appId: "1:619679599192:web:80d3021115a2f33662982d",
+  measurementId: "G-JHZX1NMTNG"
+ };
+
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Load leaderboard
+    async function loadLeaderboard() {
+      const leaderboardEl = document.getElementById("leaderboard");
+      leaderboardEl.textContent = "Loading...";
+
+      try {
+        const querySnapshot = await getDocs(collection(db, "users"));
+        const users = [];
+
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          if (data.wpm !== undefined && data.displayName) {
+  users.push(data);
+}
+
+        });
+
+        // Sort by WPM
+        users.sort((a, b) => b.wpm - a.wpm);
+
+        // Clear and render leaderboard
+        leaderboardEl.innerHTML = "";
+        users.forEach((user, index) => {
+          const row = document.createElement("div");
+          row.classList.add("user-row");
+          if (index === 0) row.classList.add("top");
+
+          row.textContent = `${index + 1}. ${user.displayName} — ${user.wpm} WPM`;
+          leaderboardEl.appendChild(row);
+        });
+
+        if (users.length === 0) {
+          leaderboardEl.innerHTML = "<p>No users found.</p>";
+        }
+      } catch (err) {
+        console.error("Error loading leaderboard:", err);
+        leaderboardEl.textContent = "Failed to load leaderboard.";
+      }
+    }
+
+    loadLeaderboard();
+  </script>
+</body>
+</html>
